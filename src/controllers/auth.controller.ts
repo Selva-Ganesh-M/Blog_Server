@@ -73,6 +73,8 @@ export const loginUser = asyncHandler(
     >,
     res
   ) => {
+    console.log(req.body);
+
     // if user not found send error
     let user = await userModel.findOne({ email: req.body.email });
     if (!user)
