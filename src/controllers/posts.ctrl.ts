@@ -2,6 +2,15 @@ import { Request, Response } from "express";
 import postModel from "../models/post.model";
 import asyncHandler from "express-async-handler";
 import { customError } from "../utils/customError";
+import userModel from "../models/user.model";
+
+export type TPost = {
+  cover: string;
+  category: string;
+  title: string;
+  desc: string;
+  userId: string;
+};
 
 export const getAllPosts = async (req: Request, res: Response) => {
   const posts = await postModel.find();
@@ -93,6 +102,61 @@ export const getsinglePost = asyncHandler(
       statusText: "success",
       statusCode: 200,
       message: "post found",
+      payload: post,
+    });
+  }
+);
+
+// delete a post
+export const deletePost = asyncHandler(
+  async (
+    req: Request<{ id: string }, {}, { userId: string }>,
+    res: Response
+  ) => {
+    const post = await postModel.findByIdAndDelete(req.params.id);
+
+    // response
+    res.status(200).json({
+      statusText: "success",
+      statusCode: 200,
+      message: "post deleted successfully",
+      payload: post,
+    });
+  }
+);
+
+// create a post
+export const createPost = asyncHandler(
+  async (req: Request<{}, {}, TPost>, res: Response) => {
+    // creation
+    const post = new postModel(req.body);
+    await post.save();
+
+    // response
+    res.status(201).json({
+      statusText: "success",
+      statusCode: 201,
+      message: "new post created",
+      payload: post,
+    });
+  }
+);
+
+// update post
+export const updatePost = asyncHandler(
+  async (req: Request<{ id: string }, {}, Partial<TPost>>, res: Response) => {
+    const data = req.body;
+    const post = await postModel.findByIdAndUpdate(req.params.id, req.body, {
+      upsert: true,
+      new: true,
+    });
+
+    if (!post) throw new customError(500, "update failed: update post failed.");
+
+    res.status(200).json({
+      statusText: "success",
+      statusCode: 200,
+      message: "post updated successfully",
       payload: post,
     });
   }

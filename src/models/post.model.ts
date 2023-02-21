@@ -6,6 +6,7 @@ export type TPost = {
   category: string;
   desc: string;
   likes?: Array<string>;
+  userId: string;
 };
 
 const postSchema = new mongoose.Schema<TPost>(
@@ -29,6 +30,10 @@ const postSchema = new mongoose.Schema<TPost>(
     likes: {
       type: [{ type: String }],
       default: [],
+    },
+    userId: {
+      type: String,
+      required: true,
     },
   },
   {
