@@ -8,28 +8,33 @@ export type TPost = {
   likes?: Array<string>;
 };
 
-const postSchema = new mongoose.Schema<TPost>({
-  cover: {
-    type: String,
-    required: true,
+const postSchema = new mongoose.Schema<TPost>(
+  {
+    cover: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    desc: {
+      type: String,
+      required: true,
+    },
+    likes: {
+      type: [{ type: String }],
+      default: [],
+    },
   },
-  title: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  desc: {
-    type: String,
-    required: true,
-  },
-  likes: {
-    type: [{ type: String }],
-    default: [],
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const postModel = mongoose.model("Post", postSchema);
 

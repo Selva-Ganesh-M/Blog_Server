@@ -31,7 +31,8 @@ server.use(customReqLogger);
 // Routers
 // auth router
 server.use("/api/auth", authRouter);
-// posts route
+
+// posts router
 server.use("/api/posts", postsRouter);
 
 // custom error handler
