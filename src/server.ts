@@ -14,6 +14,7 @@ const server = express();
 server.use(
   cors({
     origin: (origin: any, callback: any) => {
+      console.log("request origin: ", origin);
       if (
         ["https://gostblog.netlify.app", "http://localhost:5173"].indexOf(
           origin
