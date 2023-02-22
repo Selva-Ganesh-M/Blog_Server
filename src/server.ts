@@ -14,7 +14,7 @@ const server = express();
 server.use(
   cors({
     origin: (origin: any, callback: any) => {
-      if (!origin || ["https://gostblog.netlify.app"].indexOf(origin) !== -1) {
+      if (["https://gostblog.netlify.app"].indexOf(origin) !== -1 || !origin) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
