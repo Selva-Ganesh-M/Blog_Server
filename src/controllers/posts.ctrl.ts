@@ -161,3 +161,26 @@ export const updatePost = asyncHandler(
     });
   }
 );
+
+// get my blogs
+export const getMyBlogs = asyncHandler(
+  async (req: Request<{ id: string }>, res: Response) => {
+    const { id } = req.params;
+    const posts = await postModel.find({ userId: id }).lean();
+
+    // if mongoose failed
+    if (!posts)
+      throw new customError(
+        500,
+        "fetch my posts failed: mongoose return null, but the possible value is []"
+      );
+
+    // resposne
+    res.status(200).json({
+      statusText: "success",
+      statusCode: 200,
+      message: "fetched myblogs",
+      payload: posts,
+    });
+  }
+);

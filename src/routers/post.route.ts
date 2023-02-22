@@ -4,12 +4,16 @@ import {
   deletePost,
   dislikePost,
   getAllPosts,
+  getMyBlogs,
   getsinglePost,
   likePost,
   updatePost,
 } from "../controllers/posts.ctrl";
 
 const postsRouter = express.Router();
+
+// get myblogs
+postsRouter.get("/myblogs/:id", getMyBlogs);
 
 // get single post
 postsRouter.get("/:id", getsinglePost);
